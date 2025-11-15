@@ -1,11 +1,103 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-</head>
-<body>
-  
-</body>
+
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+      h1{
+        color: #01807F;
+        text-align: center;
+      }
+      .main_container{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .container {
+        width: fit-content;
+        padding: 20px;
+        box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        border-radius: 10px;
+      }
+      .main_row {
+        width: 100%;
+        padding: 15px 0px;/
+        border-radius: 5px;
+        box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+        margin-bottom: 20px;
+        height: 20px;
+        border-radius: 5px;
+      }
+
+      .numbers_row {
+        display: grid;
+        grid-template-columns: repeat(4, 60px);
+        /* equal squares */
+        gap: 15px;
+      }
+
+      .numbers_row>div {
+        height: 60px;
+        /* square shape */
+        width: 60px;
+        /* square shape */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: white;
+        box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+        border-radius: 5px;
+        font-size: 16px;
+        font-weight: 700;
+        cursor: pointer;
+      }
+      .numbers_row>div:nth-child(4),.numbers_row>div:nth-child(8),
+      .numbers_row>div:nth-child(12),.numbers_row>div:nth-child(15),
+      .numbers_row>div:last-child
+      {
+        background-color: black;
+        color: white;
+      }
+      .numbers_row>div:nth-child(13){
+        background-color: #FE0100;
+        color: white;
+      }
+
+    </style>
+  </head>
+
+  <body>
+    <h1>Masai Calculator</h1>
+    <div class="main_container">
+    <div class="container">
+      <div class="main_row"></div>
+      <div class="numbers_row">
+        <div>1</div>
+        <div>2</div>
+        <div>3</div>
+        <div>+</div>
+        <div>4</div>
+        <div>5</div>
+        <div>6</div>
+        <div>-</div>
+        <div>7</div>
+        <div>8</div>
+        <div>9</div>
+        <div>x</div>
+        <div>C</div>
+        <div>0</div>
+        <div>=</div>
+        <div>/</div>
+      </div>
+    </div>
+    </div>
+  </body>
+
 </html>
