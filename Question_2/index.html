@@ -1,44 +1,307 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-  <style>
-    .container{
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
-      grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr ;
-      gap: 1em;
-      max-width: 60%;
-    }
-    .container>div{
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 1em;
-      background-color: azure;
-      border: 1px solid red;
-    }
-  </style>
-</head>
-<body>
-  <div class="container">
-    <div>1</div>
-    <div>1</div>
-    <div>1</div>
-    <div>1</div>
-    <div>1</div>
-    <div>1</div>
-    <div>1</div>
-    <div>1</div>
-    <div>1</div>
-    <div>1</div>
-    <div>1</div>
-    <div>1</div>
-    <div>1</div>
-    <div>1</div>
-    <div>1</div>
-  </div>
-</body>
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Weekly Schedule</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;600;700&family=Pacifico&display=swap"
+    rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Edu+NSW+ACT+Cursive:wght@400..700&display=swap" rel="stylesheet">
+    <style>
+      * {
+        box-sizing: border-box
+      }
+
+      html,
+      body {
+        height: 100%
+      }
+
+      body {
+        margin: 0;
+        font-family: "Inter", system-ui, Segoe UI, Roboto, "Helvetica Neue", Arial;
+        background: var(--bg);
+        color: var(--accent);
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        padding: 28px;
+        display: flex;
+        justify-content: center;
+      }
+
+      /* outer wrapper */
+      .wrap {
+        width: 100%;
+        max-width: 1000px;
+        background: transparent;
+      }
+
+      /* header/title area */
+      .title {
+        text-align: center;
+        margin: 6px 0 26px;
+        position: relative;
+      }
+
+      .title h1 {
+        margin: 0;
+        font-family: "Edu NSW ACT Cursive", cursive;
+        font-size: 56px;
+        letter-spacing: 1px;
+        color: #0D273C;
+        text-shadow: 0 2px 0 rgba(0, 0, 0, 0.03);
+      }
+
+      /* grid for schedule: first column times + 5 day columns */
+      .schedule {
+        display: grid;
+        grid-template-columns: 120px 1fr 1fr 1fr 1fr 1fr;
+        gap: 18px;
+        align-items: start;
+        padding: 20px;
+      }
+
+      /* times column */
+      .times {
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+        padding-top: 48px;
+        /* align with day header pills */
+      }
+
+      .time-pill {
+        background-color: #BCEEF2;
+        padding: 10px 1px;
+        border-radius: 999px;
+        width: 92px;
+        text-align: center;
+        font-weight: 700;
+        color: #07333f;
+        box-shadow: inset 0 -4px 0 rgba(0, 0, 0, 0.03);
+        font-size: 14px;
+      }
+
+      /* day column structure */
+      .day-col {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        align-items: center;
+      }
+
+      .day-header {
+        background-color: #FFD6EF;
+        padding: 10px 18px;
+        border-radius: 999px;
+        font-weight: 700;
+        min-width: 140px;
+        text-align: center;
+        box-shadow: 0 4px 0 rgba(0, 0, 0, 0.03);
+        color: #24303a;
+      }
+
+      /* alternate day colors */
+      .day-col:nth-child(3) .day-header,
+      .day-col:nth-child(5) .day-header
+        {
+        background-color: #FAECAA;
+      }
+
+      /* slot pill */
+      .slot {
+        height: 36px;
+        min-width: 140px;
+        border-radius: 999px;
+        background-color: #FFD6EF;
+        box-shadow: 0 6px 0 rgba(0, 0, 0, 0.02);
+        width: 100%;
+        max-width: 220px;
+      }
+
+      .day-col:nth-child(3) .slot,
+      .day-col:nth-child(5) .slot {
+        background-color: #FAECAA;
+      }
+
+      /* create consistent alignment between times and slots */
+      .col-stack {
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+        width: 100%;
+        align-items: flex-start;
+        padding-top: 40px;
+      }
+
+      /* bottom note bar */
+      .note {
+        grid-column: 1 / -1;
+        margin-top: 10px;
+        background-color: #BCEEF2;
+        border-radius: 999px;
+        padding: 10px 16px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        color: #09414a;
+        font-weight: 600;
+        box-shadow: inset 0 -4px 0 rgba(0, 0, 0, 0.03);
+        margin-left: 4px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="wrap" role="main">
+
+      <header class="title" aria-hidden="false">
+        <h1>Weekly schedule</h1>
+      </header>
+
+      <section class="schedule" aria-label="Weekly schedule grid">
+        <!-- Times column -->
+        <div class="times" aria-hidden="true">
+          <div style="height:28px"></div> <!-- spacer to align with day headers -->
+          <div class="time-pill">08:00</div>
+          <div class="time-pill">09:00</div>
+          <div class="time-pill">10:00</div>
+          <div class="time-pill">11:00</div>
+          <div class="time-pill">12:00</div>
+          <div class="time-pill">13:00</div>
+          <div class="time-pill">14:00</div>
+          <div class="time-pill">15:00</div>
+          <div class="time-pill">16:00</div>
+        </div>
+
+        <!-- Monday -->
+        <div class="day-col" aria-label="Monday">
+          <div class="day-header">Monday</div>
+          <div class="col-stack">
+            <div class="slot"></div>
+            <div class="slot"></div>
+            <div class="slot"></div>
+            <div class="slot"></div>
+            <div class="slot"></div>
+            <div class="slot"></div>
+            <div class="slot"></div>
+            <div class="slot"></div>
+            <div class="slot"></div>
+          </div>
+        </div>
+
+        <!-- Tuesday -->
+        <div class="day-col" aria-label="Tuesday">
+          <div class="day-header">Tuesday</div>
+          <div class="col-stack">
+            <div class="slot"></div>
+            <div class="slot"></div>
+            <div class="slot"></div>
+            <div class="slot"></div>
+            <div class="slot"></div>
+            <div class="slot"></div>
+            <div class="slot"></div>
+            <div class="slot"></div>
+            <div class="slot"></div>
+          </div>
+        </div>
+
+        <!-- Wednesday -->
+        <div class="day-col" aria-label="Wednesday">
+          <div class="day-header">Wednesday</div>
+          <div class="col-stack">
+            <div class="slot"></div>
+            <div class="slot"></div>
+            <div class="slot"></div>
+            <div class="slot"></div>
+            <div class="slot"></div>
+            <div class="slot"></div>
+            <div class="slot"></div>
+            <div class="slot"></div>
+            <div class="slot"></div>
+          </div>
+        </div>
+
+        <!-- Thursday -->
+        <div class="day-col" aria-label="Thursday">
+          <div class="day-header">Thursday</div>
+          <div class="col-stack">
+            <div class="slot"></div>
+            <div class="slot"></div>
+            <div class="slot"></div>
+            <div class="slot"></div>
+            <div class="slot"></div>
+            <div class="slot"></div>
+            <div class="slot"></div>
+            <div class="slot"></div>
+            <div class="slot"></div>
+          </div>
+        </div>
+
+        <!-- Friday -->
+        <div class="day-col" aria-label="Friday">
+          <div class="day-header">Friday</div>
+          <div class="col-stack">
+            <div class="slot"></div>
+            <div class="slot"></div>
+            <div class="slot"></div>
+            <div class="slot"></div>
+            <div class="slot"></div>
+            <div class="slot"></div>
+            <div class="slot"></div>
+            <div class="slot"></div>
+            <div class="slot"></div>
+          </div>
+        </div>
+
+        <!-- Compact days (for small screens) -->
+        <!-- <div class="compact-days" aria-hidden="true">
+          <div class="compact-day">
+            <div class="day-header">Monday</div>
+            <div class="slot"></div>
+            <div class="slot"></div>
+            <div class="slot"></div>
+            <div class="slot"></div>
+          </div>
+          <div class="compact-day">
+            <div class="day-header">Tuesday</div>
+            <div class="slot"></div>
+            <div class="slot"></div>
+            <div class="slot"></div>
+            <div class="slot"></div>
+          </div>
+          <div class="compact-day">
+            <div class="day-header">Wednesday</div>
+            <div class="slot"></div>
+            <div class="slot"></div>
+            <div class="slot"></div>
+            <div class="slot"></div>
+          </div>
+          <div class="compact-day">
+            <div class="day-header">Thursday</div>
+            <div class="slot"></div>
+            <div class="slot"></div>
+            <div class="slot"></div>
+            <div class="slot"></div>
+          </div>
+          <div class="compact-day" style="grid-column: 1 / -1;">
+            <div class="day-header">Friday</div>
+            <div class="slot"></div>
+            <div class="slot"></div>
+            <div class="slot"></div>
+            <div class="slot"></div>
+          </div>
+        </div> -->
+
+        <!-- note bar -->
+        <div class="note" role="note">
+          <strong>Note:</strong>
+          <span style="font-weight:400;margin-left:6px;color:#07434b">Use this space for reminders or weekly
+            goals</span>
+        </div>
+      </section>
+    </div>
+  </body>
+
 </html>
